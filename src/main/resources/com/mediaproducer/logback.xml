@@ -1,0 +1,41 @@
+<configuration>
+
+    <!-- 1. Define an Appender: Where to send logs -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- This appender sends log output to the standard output console (System.out) -->
+
+        <!-- Define the Encoder: How to format log messages -->
+        <encoder>
+            <!-- PatternLayoutEncoder formats logs based on a pattern string -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <!--
+                Breakdown of the pattern:
+                %d{HH:mm:ss.SSS}: Timestamp (Hour:Minute:Second.Millisecond)
+                [%thread]       : Name of the thread that generated the log message (e.g., [Producer-1], [main])
+                %-5level        : Log level (e.g., INFO , DEBUG, ERROR), left-justified in 5 spaces
+                %logger{36}     : Name of the logger (usually the class name), abbreviated to max 36 chars
+                -               : Literal hyphen separator
+                %msg            : The actual log message you wrote in your code (e.g., "Starting producer...")
+                %n              : Newline character
+            -->
+        </encoder>
+    </appender>
+
+    <!-- 2. Configure the Root Logger -->
+    <root level="info">
+        <!-- The root logger catches all logs from anywhere in the application
+             unless a more specific logger is defined -->
+        <!-- level="info": By default, only logs of level INFO and higher (WARN, ERROR) will be processed -->
+        <appender-ref ref="STDOUT" />
+        <!-- Tells the root logger to send its output to the appender named "STDOUT" -->
+    </root>
+
+    <!-- 3. Configure a Specific Logger (Optional but Recommended) -->
+    <logger name="com.mediaproducer" level="debug"/>
+    <!-- This defines a logger specifically for classes within the "com.mediaproducer" package -->
+    <!-- level="debug": For this specific package, logs of level DEBUG and higher (DEBUG, INFO, WARN, ERROR)
+                       will be processed. This overrides the root logger's "info" level for these classes. -->
+    <!-- Log messages from this logger will still go to the "STDOUT" appender inherited from the root logger -->
+    <!-- Note: You don't need <appender-ref> here unless you want this package to log somewhere DIFFERENTLY -->
+
+</configuration>
